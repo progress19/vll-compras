@@ -33,12 +33,28 @@
                   
                   <li><a href="{{ url('/admin/dashboard') }}"><i class="fa fa-home"></i> Home </a></li>
 
-                  <li><a><i class="fa fa-users"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-building-o" aria-hidden="true"></i> Solicitudes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ url('/admin/agregar-usuario') }}">Nuevo Usuario</a></li>
-                      <li><a href="{{ url('/admin/ver-usuarios') }}">Ver Usuarios</a></li>
+                      <li><a href="{{ url('/admin/agregar-sector') }}">Nueva solicitud</a></li>
+                      <li><a href="{{ url('/admin/ver-sectores') }}">Listado</a></li>
                     </ul>
                   </li>
+
+                  @if(Auth::user()->rol == 1) 
+                  <li><a><i class="fa fa-building-o" aria-hidden="true"></i> Centros de costos <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url('/admin/agregar-sector') }}">Nuevo centro</a></li>
+                      <li><a href="{{ url('/admin/ver-sectores') }}">Listado</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-users"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url('/admin/agregar-usuario') }}">Nuevo usuario</a></li>
+                      <li><a href="{{ url('/admin/ver-usuarios') }}">Listados</a></li>
+                    </ul>
+                  </li>
+                  @endif
+
 
                 </ul>
               </div>

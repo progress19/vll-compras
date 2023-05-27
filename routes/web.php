@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController; 
 use App\Http\Controllers\UsuarioController; 
+use App\Http\Controllers\SectorController; 
 
 Auth::routes();
 
@@ -18,30 +19,42 @@ Route::match(['get', 'post'], 'login', [AdminController::class, 'login'])->name(
 Route::match(['get', 'post'], 'logout', [AdminController::class, 'logout']);
 
 
-Route::group(['middleware' => ['auth']], function() {
-
-	Route::get('/', function () { return view('admin/dashboard'); });
+Route::group(['middleware' => ['auth']], function () {
     
+	Route::get('/', function () { return view('admin/dashboard'); });
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
-	/* DATATABLES */
+	// Rutas solo para usuarios con rol 0
+		Route::group(['middleware' => ['role:0']], function () {
+	});
 
-	//Route::get('dataUsuarios', 'UsuarioController@getData')->name('dataUsuarios');
-	Route::get('dataUsuarios', [UsuarioController::class, 'getData'])->name('dataUsuarios');
+    Route::group(['middleware' => ['role:1']], function () {
 
-	/**/
+		/* DATATABLES */
+
+		Route::get('dataUsuarios', [UsuarioController::class, 'getData'])->name('dataUsuarios');
+		Route::get('dataSectores', [SectorController::class, 'getData'])->name('dataSectores');
+
+		Route::get('/admin/settings', 'AdminController@settings');
+		Route::get('/admin/edit-user', 'AdminController@editUser');
+		Route::get('/admin/check-pwd','AdminController@chkPassword');
+		Route::match(['get','post'], '/admin/update-pwd', 'AdminController@updatePassword');
+		
+		Route::get( 'admin/reset-pwd', [AdminController::class, 'resetPassword']);
 	
-	Route::get('/admin/settings', 'AdminController@settings');
-	Route::get('/admin/edit-user', 'AdminController@editUser');
-	Route::get('/admin/check-pwd','AdminController@chkPassword');
-	Route::match(['get','post'], '/admin/update-pwd', 'AdminController@updatePassword');
-	
-	Route::get( 'admin/reset-pwd', [AdminController::class, 'resetPassword']);
+		// Usuarios Routes (Admin)
+		Route::match(['get', 'post'], 'admin/agregar-usuario', [UsuarioController::class, 'addUsuario']);
+		Route::match(['get','post'],'/admin/editar-usuario/{id}', [UsuarioController::class, 'editarUsuario']);
+		Route::match(['get','post'],'/admin/eliminar-usuario/{id}', [UsuarioController::class, 'eliminarUsuario']);
+		Route::get('/admin/ver-usuarios', [UsuarioController::class, 'viewUsuarios']);
 
-	//Usuarios Routes (Admin)
-	Route::match(['get', 'post'], 'admin/agregar-usuario', [UsuarioController::class, 'addUsuario']);
-	Route::match(['get','post'],'/admin/editar-usuario/{id}', [UsuarioController::class, 'editarUsuario']);
-	Route::match(['get','post'],'/admin/eliminar-usuario/{id}', [UsuarioController::class, 'eliminarUsuario']);
-	Route::get('/admin/ver-usuarios', [UsuarioController::class, 'viewUsuarios']);
+        // Rutas accesibles solo para usuarios con rol 1 (rol 1 tiene acceso a todo)
+        Route::match(['get', 'post'], 'admin/agregar-sector', [SectorController::class, 'addSector']);
+        Route::match(['get', 'post'], '/admin/editar-sector/{id}', [SectorController::class, 'editSector']);
+        Route::match(['get', 'post'], '/admin/eliminar-sector/{id}', [SectorController::class, 'deleteSector']);
+        Route::get('/admin/ver-sectores', [SectorController::class, 'verSectores']);
+
+    });
 
 });
+

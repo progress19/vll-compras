@@ -65,7 +65,6 @@ $('#new_pwd').click(function() {
 
 });
 
-
 $("#frmPwdAdmin").validate({
     event: "blur",
     rules: {
@@ -163,26 +162,48 @@ $("#edit_usuario").validate({
     }
 });
 
-$("#edit_nota_publica").validate({
-    event: "blur",
-    rules: {
-        'nota-publica': "required",
-           },
-    messages: {
-        'nota-publica': "Por favor ingrese nombre.",
+/* SECTORES */
+
+    /* Sectores add_sector */
+
+    $("#add_sector").validate({
+        event: "blur",
+        rules: {
+            'nombre': "required",
+                    },
+        messages: {
+            'nombre': "Por favor ingrese nombre.",
+        },
+        debug: true,errorElement: "label",
+        submitHandler: function(form){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                }
+            })
+            $('#add_sector')[0].submit();
+        }
+    });
+
+    /* Sectores edit_sector */
+
+    $("#edit_sector").validate({
+        event: "blur",
+        rules: {
+            'nombre': "required",
+            },
+        messages: {
+            'nombre': "Por favor ingrese nombre.",
     },
-    debug: true,errorElement: "label",
+        debug: true,errorElement: "label",
 
-    submitHandler: function(form){
-        
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-            }
-        })
-
-        $('#edit_nota_publica')[0].submit();
-
-    }
-});
+        submitHandler: function(form){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                }
+            })
+            $('#edit_sector')[0].submit();
+        }
+    });
 

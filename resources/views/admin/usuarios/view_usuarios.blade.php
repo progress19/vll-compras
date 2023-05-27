@@ -54,18 +54,15 @@ $(function() {
     $('#table').DataTable({
         processing: true,
         //serverSide: true,
+        pageLength: 50,
         ajax: '{!! route('dataUsuarios') !!}',
-
         columns: [
-
             {data: 'nombre', name: 'nombre'},
             {data: 'email'},
             {data: 'rol'},
             {data: 'estado', orderable: false, searchable: false, className: 'dt-body-center'},
             {data: 'acciones',title: '',orderable: false, searchable: false, className: 'dt-body-center'},
-        
         ],
-
         language: {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
          },
