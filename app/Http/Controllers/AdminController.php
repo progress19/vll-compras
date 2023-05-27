@@ -15,60 +15,29 @@ use Maatwebsite\Excel\Facades\Excel;
 class AdminController extends Controller {
 
     public function login(Request $request) {
-    	
         if($request->isMethod('post')) {
-    		
             $data = $request->input();
-    		
             if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password'] ])) {
-    		
                 if (Auth::user()->estado==1) {
-                
                     Session::put('adminSession', $data['email']);
-        
                     return redirect('/admin/dashboard')->with('flash_message','Bienvenido, '.Auth::user()->name.' :)');
-
                 } else {
-
                     return redirect('/admin')->with('flash_message','Usuario desactivado');
-
                 }
-                    		
             } else {
-    		
             	return redirect('/admin')->with('flash_message','Usuario o contraseña incorrecta.');
-    		
             }
     	}
     	return view('admin.admin_login');
     }
 
     public function dashboard(Request $request) {
-       
         if ($request->isMethod('post')) {
-
             $data = $request->all();
-         
-            if (isset($data['nota-publica'])) {
-                Config::where(['id'=>1])->update([
-                'notas' => $data['nota-publica'],
-                ]);
-            }
-
-            if (isset($data['nota-privada'])) {
-                User::where(['id'=>Auth::user()->id])->update([
-                'notas' => $data['nota-privada'],
-                ]);
-            }
-            
             return redirect('/admin/dashboard')->with('flash_message','Notas actualizadas...');
-        
         }
-                
         $config = Config::where(['id'=>1])->first();
-       
         return view('admin.dashboard')->with(compact('config')); 
-        
     }
 
     public function settings() {
@@ -81,8 +50,6 @@ class AdminController extends Controller {
 
     public function logout() {
         Session::flush();
-
-
         return redirect('/admin')->with('flash_message','Logout OK');
     }
 
@@ -99,7 +66,6 @@ class AdminController extends Controller {
 
 
     public function updatePassword(Request $request) {
-
         if ($request->isMethod('post')) {
             $data = $request->all();
             //echo "<pre>"; print_r($data); die;
@@ -109,37 +75,23 @@ class AdminController extends Controller {
             if (Hash::check($current_password,$check_password->password)) {
                 $password = bcrypt($data['new_pwd']);
                 User::where('id','1')->update(['password'=>$password]);
-
                 Session::put('flash_message', 'Contraseña actualizada correctamente!');
-            
                 return '1';
-
             } else {
-
                 Session::put('flash_message', 'La contraseña actual es incorrecta.');
-
                 return '0';
-           
             }
-
         }
-
     }
 
     public function resetPassword(Request $request) {
-
         $data = $request->all();
-
         $password = bcrypt( $data['new_password'] );
-                
         $user = User::where( [ 'id' => $data['id'] ] )->update( ['password' => $password] );
-
         if ($user) {
             echo '1';
         } else {
             echo '0';
         }
-      
     }
-
 }

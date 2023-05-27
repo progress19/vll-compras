@@ -84,7 +84,7 @@ class User extends Authenticatable
                 break;    
             
             default:
-                 return 'error';
+                return 'error';
                 break;
         }
 
