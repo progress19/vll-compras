@@ -33,10 +33,10 @@
                   
                   <li><a href="{{ url('/admin/dashboard') }}"><i class="fa fa-home"></i> Home </a></li>
 
-                  <li><a><i class="fa fa-building-o" aria-hidden="true"></i> Solicitudes <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-cart-plus" aria-hidden="true"></i> Solicitudes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ url('/admin/agregar-sector') }}">Nueva solicitud</a></li>
-                      <li><a href="{{ url('/admin/ver-sectores') }}">Listado</a></li>
+                      <li><a href="{{ url('/admin/agregar-solicitud') }}">Nueva solicitud</a></li>
+                      <li><a href="{{ url('/admin/ver-solicitudes') }}">Listado</a></li>
                     </ul>
                   </li>
 
