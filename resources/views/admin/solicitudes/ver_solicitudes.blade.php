@@ -9,7 +9,7 @@
     <div class="x_panel animate__animated animate__fadeIn">
 
       <div class="x_title">
-        <h2><i class="fa fa-cart-plus"></i> Solicitudes de compras /<small>Lista</small></h2>
+        <h2><i class="fa fa-cart-plus"></i> Solicitudes de compras - Lista</h2>
         <div class="clearfix"></div>
       </div>
 
@@ -23,6 +23,8 @@
                   <tr>
                     <th>N°</th>
                     <th>Fecha</th>
+                    <th>Usuario</th>
+                    <th>Centro de costos</th>
                     <th>Título</th>
                     <th>Fec. necesidad</th>
                     <th>Estado</th>
@@ -55,6 +57,8 @@ $(function() {
         columns: [
             {data: 'numero_raw'},
             {data: 'fecha_raw'},
+            {data: 'usuario_raw'},
+            {data: 'sector_raw'},
             {data: 'titulo_raw'},
             {data: 'fechaNec_raw'},
             {data: 'estado', orderable: false, searchable: false, className: 'dt-body-center'},

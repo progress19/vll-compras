@@ -9,7 +9,7 @@
         <div class="x_panel animate__animated animate__fadeIn">
 
           <div class="x_title">
-            <h2><i class="fa fa-building-o"></i> Centros de costos /<small>Lista</small></h2>
+            <h2><i class="fa fa-building-o"></i> Centros de costos - Lista</h2>
             <div class="clearfix"></div>
           </div>
 

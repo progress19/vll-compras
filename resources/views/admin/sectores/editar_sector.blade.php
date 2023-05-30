@@ -1,7 +1,7 @@
 @extends('layouts.adminLayout.admin_design')
 @section('content')
 
-      <div class="col-md-8">
+      <div class="col-md-6">
         <div class="x_panel animate__animated animate__fadeIn">
           <div class="x_title">
             <h2><i class="fa fa-building-o"></i> Centros de costos<small>/ Editar</small></h2>
@@ -19,7 +19,7 @@
               'method' => 'post',
               'files' => true]) }}
 
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <div class="form-group">
                   {!! Form::label('nombre', 'Nombre') !!}
                   {!! Form::text('nombre', $sector->nombre, ['id' => 'nombre', 'class' => 'form-control']) !!}

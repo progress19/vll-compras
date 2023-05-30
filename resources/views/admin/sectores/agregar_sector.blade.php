@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="x_panel animate__animated animate__fadeIn">
           <div class="x_title">
-            <h2><i class="fa fa-building-o"></i> Centros de costos /<small>Nuevo</small></h2>
+            <h2><i class="fa fa-building-o"></i> Centros de costos - Nuevo</h2>
             <ul class="nav navbar-right panel_toolbox"></ul>
             <div class="clearfix"></div>
           </div>

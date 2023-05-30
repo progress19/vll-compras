@@ -196,7 +196,6 @@ $("#edit_usuario").validate({
             'nombre': "Por favor ingrese nombre.",
     },
         debug: true,errorElement: "label",
-
         submitHandler: function(form){
             $.ajaxSetup({
                 headers: {
@@ -204,6 +203,50 @@ $("#edit_usuario").validate({
                 }
             })
             $('#edit_sector')[0].submit();
+        }
+    });
+
+/* SOLICITUDES */
+
+    /* Solicitudes add_solicitud */
+
+    $("#add_solicitud").validate({
+        event: "blur",
+        rules: {
+            'titulo': "required",
+                    },
+        messages: {
+            'titulo': "Por favor ingrese titulo de la solicitud.",
+        },
+        debug: true,errorElement: "label",
+        submitHandler: function(form){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                }
+            })
+            $('#add_solicitud')[0].submit();
+        }
+    });
+
+    /* Solicitudes edit_solicitud */
+
+    $("#edit_solicitud").validate({
+        event: "blur",
+        rules: {
+            'titulo': "required",
+            },
+        messages: {
+            'titulo': "Por favor ingrese titulo de la solicitud.",
+        },
+        debug: true,errorElement: "label",
+        submitHandler: function(form){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                }
+            })
+            $('#edit_solicitud')[0].submit();
         }
     });
 

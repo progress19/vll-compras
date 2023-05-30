@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Solicitud;
+use App\Sector;
 use App\Fun;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
@@ -28,15 +29,24 @@ class SolicitudController extends Controller {
 
             ->addColumn('fechaNec_raw', function ($solicitud) {
                 return Carbon::parse($solicitud->fechaNec)->format('d-m-Y'); 
-            })  
+            })
+            
+            ->addColumn('usuario_raw', function ($solicitud) {
+                return $solicitud->usuario->name;
+            }) 
+
+            ->addColumn('sector_raw', function ($solicitud) {
+                return $solicitud->sector->nombre;
+            }) 
 
             ->addColumn('estado', function ($solicitud) {
                 return Fun::getIconStatus($solicitud->estado); 
             })
+
             ->addColumn('acciones', function ($solicitud) {
                 return "<a href='eliminar-solicitud/$solicitud->id' class='delReg'><i class='fa fa-trash-o' aria-hidden='true'></i></a>";
             })
-            ->rawColumns(['numero_raw','fecha_raw','titulo_raw','fechaNec_raw','estado','acciones'])
+            ->rawColumns(['numero_raw','fecha_raw','titulo_raw','fechaNec_raw','usuario_raw','estado','acciones','sector'])
             ->make(true);
     }
 
@@ -49,15 +59,18 @@ class SolicitudController extends Controller {
     /*********************************************************/
     
     public function addSolicitud(Request $request) {
+        
         if ($request->isMethod('post')) {
             $data = $request->all();
             $solicitud = new Solicitud;
-            $solicitud->nombre = $data['nombre'];
+            $solicitud->titulo = $data['titulo'];
             $solicitud->estado = $data['estado'];
             $solicitud->save();
             return redirect('/admin/ver-solicitudes')->with('flash_message','Solicitud creada correctamente...');
         }
-       return view('admin.solicitudes.agregar_solicitud');
+       
+        $sectores = Sector::where(['estado'=>1])->orderBy('nombre','asc')->pluck('nombre', 'id');
+        return view('admin.solicitudes.agregar_solicitud')->with(compact('sectores'));
     }
 
     /*********************************************************/
@@ -69,7 +82,7 @@ class SolicitudController extends Controller {
             $data = $request->all();
             //echo "<pre>"; print_r($data); die;
             Solicitud::where(['id'=>$id])->update([
-                'nombre' => $data['nombre'],
+                'titulo' => $data['titulo'],
                 'estado' => $data['estado'],
                 ]);
             return redirect('/admin/ver-solicitudes')->with('flash_message','Solicitud actualizada correctamente...');

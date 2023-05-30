@@ -1,10 +1,15 @@
+@php
+  use App\Fun;
+  use Carbon\Carbon;
+@endphp
+
 @extends('layouts.adminLayout.admin_design')
 @section('content')
 
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="x_panel animate__animated animate__fadeIn">
           <div class="x_title">
-            <h2><i class="fa fa-building-o"></i> Centros de costos /<small>Nuevo</small></h2>
+            <h2><i class="fa fa-cart-plus"></i> Solicitudes de compras - Nueva</h2>
             <ul class="nav navbar-right panel_toolbox"></ul>
             <div class="clearfix"></div>
           </div>
@@ -12,20 +17,40 @@
           <div class="x_content">
 
             {{ Form::open([
-              'id' => 'add_sector',
-              'name' => 'add_sector',
-              'url' => '/admin/agregar-sector/',
+              'id' => 'add_solicitud',
+              'name' => 'add_solicitud',
+              'url' => '/admin/agregar-solicitud/',
               'role' => 'form',
               'method' => 'post',
-              'files' => true]) }}
+              'files' => true])
+            }}
 
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <div class="form-group">
-                  {!! Form::label('nombre', 'Nombre') !!}
-                  {!! Form::text('nombre', null, ['id' => 'nombre', 'class' => 'form-control']) !!}
+                  {!! Form::label('titulo', 'Título') !!}
+                  {!! Form::text('titulo', null, ['id' => 'titulo', 'class' => 'form-control']) !!}
                 </div>
               </div>
 
+              <div class="clearfix"></div>
+               
+              <div class="col-md-3">
+                <div class="form-group">
+                  {!! Form::label('sector', 'Centro de costos') !!}
+                  {!! Form::select('idSector', $sectores, null, ['id' => 'idSector', 'placeholder' => 'Seleccione Centro de costos...', 'class' => 'form-control select2']) !!}
+                </div>
+              </div>
+              
+              <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('fechaNec', 'Fecha de necesidad') !!}
+                    {!! Form::text('fechaNec', Carbon::now()->format('d-m-Y'), [
+                        'class' => 'form-control datespicker',
+                        'id' => 'fechaNec',
+                    ]) !!}
+                </div>
+              </div>
+              
               <div class="clearfix"></div>
               
                 <div class="col-md-3">
@@ -45,11 +70,24 @@
         </div>
       </div>
 
-
-
 @endsection
 
 @section('page-js-script')
+
+<script>
+
+  $('.datespicker').datepicker({
+    format: "dd-mm-yyyy",
+    todayBtn: "linked",
+    autoclose: true,
+    todayHighlight: true,
+    startDate: "0d"
+    //defaultViewDate: { year: 1977, month: 04, day: 25 }
+  });
+
+  $('.select2').select2();
+
+</script>
 
 
 @stop
