@@ -10,69 +10,78 @@ use Illuminate\Support\Str;
 class Fun extends Model {
 
 	public static function getFormatDateInv($date) { //recupero desde la bd
-
 		if ($date) {
-
 			$date = explode("-",$date);
         	$date = "$date[2]-$date[1]-$date[0]";  
-		
 			return $date;
-			
 		}
-	
 	}
 
-	public static function getStatusParte($status, $parte) {
+	public static function getStatusSolicitud($status) {
+		
+		switch ( $status ) {
+			case '1':
+				return '<span class="status-solicitud status-pendiente">Pendiente</span>';  	
+				break;
 
-		if ($status == 1) { 
+			case '2':
+				return '<span class="status-solicitud status-aprobada">Aprobada</span>';  	
+				break;
+
+			case '3':
+				return '<span class="status-solicitud status-rechazada">Rechazada</span>';  	
+				break;
+			
+			case '4':
+				return '<span class="status-solicitud status-proceso">En proceso</span>';  	
+				break;
+			
+			case '5':
+				return '<span class="status-solicitud status-deposito">En depósito</span>';  	
+				break;
+
+			case '6':
+				return '<span class="status-solicitud status-finalizada">Finalizada</span>';  	
+				break;
+			
+			
+		}
 		
-			return '<span class="style="padding: 7px !important;"><i class="fa fa-check"></i> Enviado</span>'; }  
-		
-		else { 
-		
-			return "<a href='send-parte/".$parte."'><span class='badge badge-warning'>Enviar</span></a>";
-	
-		 }
 	}
 
 	public static function getIconStatus($status) {
-
 		if ($status==1) {return '<i style="font-size:18px;" class="fa fa-check"></i>';} 
 			else {return '<i style="font-size:18px;" class="fa fa-times"></i>';}
-		}
+	}
 
 	public static function getFormatDate($date) {
-
 		$date = explode("-",$date);
         $date = "$date[2]-$date[1]-$date[0]";  
-		
 		return $date;
 	}
 
-	public static function getCircunscripcion($id) {
-
-		// 1 => 'Capital', 2 => 'San Rafael', 3 => 'Tunuyan', 4 => 'San Martín'
-		 
+	public static function getC($id) {
+				 
 		switch ($id) {
 
 			case '0':
-		 		$cir = 'Todas';
+		 		$cir = 'a';
 		 		break;
 
 		 	case '1':
-		 		$cir = 'Capital';
+		 		$cir = 'a';
 		 		break;
 		 	
 		 	case '2':
-		 		$cir = 'San Rafael';
+		 		$cir = 'San a';
 		 		break;
 		 		
 		 	case '3':
-		 		$cir = 'Tunuyan';
+		 		$cir = 'a';
 		 		break;
 		 		
 		 	case '4':
-		 		$cir = 'San Martín';
+		 		$cir = 'a';
 		 		break;		
 
 		 	default:

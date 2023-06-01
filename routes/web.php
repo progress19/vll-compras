@@ -19,7 +19,6 @@ Route::match(['get', 'post'], 'admin', [AdminController::class, 'login']);
 Route::match(['get', 'post'], 'login', [AdminController::class, 'login'])->name('login');
 Route::match(['get', 'post'], 'logout', [AdminController::class, 'logout']);
 
-
 Route::group(['middleware' => ['auth']], function () {
     
 	Route::get('/', function () { return view('admin/dashboard'); });
@@ -59,7 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/admin/ver-sectores', [SectorController::class, 'verSectores']);
 
 		// Solicitudes
-        Route::match(['get', 'post'], 'admin/agregar-solicitud', [SolicitudController::class, 'addSolicitud']);
+        Route::match(['get', 'post'], 'admin/nueva-solicitud', [SolicitudController::class, 'addSolicitud']);
         Route::match(['get', 'post'], '/admin/editar-solicitud/{id}', [SolicitudController::class, 'editSolicitud']);
         Route::match(['get', 'post'], '/admin/eliminar-solicitud/{id}', [SolicitudController::class, 'deleteSolicitud']);
         Route::get('/admin/ver-solicitudes', [SolicitudController::class, 'verSolicitudes']);

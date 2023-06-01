@@ -23,9 +23,9 @@
                   <tr>
                     <th>N°</th>
                     <th>Fecha</th>
+                    <th>Título</th>
                     <th>Usuario</th>
                     <th>Centro de costos</th>
-                    <th>Título</th>
                     <th>Fec. necesidad</th>
                     <th>Estado</th>
                     <th></th>
@@ -48,38 +48,39 @@
 
 <script>
 
-$(function() {
-    $('#table').DataTable({
-        processing: true,
-        //serverSide: true,
-        pageLength: 50,
-        ajax: '{!! route('dataSolicitudes') !!}',
-        columns: [
-            {data: 'numero_raw'},
-            {data: 'fecha_raw'},
-            {data: 'usuario_raw'},
-            {data: 'sector_raw'},
-            {data: 'titulo_raw'},
-            {data: 'fechaNec_raw'},
-            {data: 'estado', orderable: false, searchable: false, className: 'dt-body-center'},
-            {data: 'acciones',title: '', orderable: false, searchable: false, className: 'dt-body-center'},
-            //{data: 'nombre', name: 'nombre', searchable: true, visible: false},
-        ],
+  $(function() {
+      $('#table').DataTable({
+          processing: true,
+          //serverSide: true,
+          pageLength: 50,
+          ajax: '{!! route('dataSolicitudes') !!}',
+          columns: [
+              {data: 'numero_raw'},
+              {data: 'fecha_raw'},
+              {data: 'titulo_raw'},
+              {data: 'usuario_raw'},
+              {data: 'sector_raw'},
+              {data: 'fechaNec_raw'},
+              {data: 'estado', className: 'dt-body-center'},
+              {data: 'acciones',title: '', orderable: false, searchable: false, className: 'dt-body-center'},
+              //{data: 'titulo', name: 'titulo', searchable: true, visible: false},
+              {data: 'fecha', searchable: true, visible: false},
+          ],
+          order: [[0, 'desc']],
+          language: {
+              "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+          },
+      });
+  });
 
-        language: {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-         },
-    });
-});
-
-$(document).ready(function() {
-    $('#table tbody').on( 'click', '.delReg', function () {
-    if (confirm('Está seguro de eliminar el registro ?')) {
+  $(document).ready(function() {
+      $('#table tbody').on( 'click', '.delReg', function () {
+      if (confirm('Está seguro de eliminar el registro ?')) {
         return true;
-    }
-      return false;
-    });
-});
+      }
+        return false;
+      });
+  });
 
 </script>
 

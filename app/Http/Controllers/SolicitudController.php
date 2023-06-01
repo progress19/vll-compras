@@ -12,8 +12,12 @@ use Carbon\Carbon;
 class SolicitudController extends Controller {
 
     public function getData() {
-        $solicitudes = Solicitud::select();
+        
+        $solicitudes = Solicitud::select()->orderBy('id', 'desc');
+        
         return Datatables::of($solicitudes)
+
+            ->orderColumn('id', '-id $1')
 
             ->addColumn('numero_raw', function ($solicitud) {
                 return "<a href='editar-solicitud/$solicitud->id'>$solicitud->id</a>"; 
@@ -40,7 +44,7 @@ class SolicitudController extends Controller {
             }) 
 
             ->addColumn('estado', function ($solicitud) {
-                return Fun::getIconStatus($solicitud->estado); 
+                return Fun::getStatusSolicitud($solicitud->estado); 
             })
 
             ->addColumn('acciones', function ($solicitud) {
@@ -61,16 +65,24 @@ class SolicitudController extends Controller {
     public function addSolicitud(Request $request) {
         
         if ($request->isMethod('post')) {
+            
             $data = $request->all();
+            
+            $fechaNec = explode("-",$data['fechaNec']);
+            $fechaNec = "$fechaNec[2]-$fechaNec[1]-$fechaNec[0]"; 
+
             $solicitud = new Solicitud;
             $solicitud->titulo = $data['titulo'];
-            $solicitud->estado = $data['estado'];
+            $solicitud->idSector = $data['idSector'];
+            $solicitud->fechaNec = $fechaNec;
+            $solicitud->idUsuario = $request->user()->id;
+            $solicitud->estado = 1;
             $solicitud->save();
             return redirect('/admin/ver-solicitudes')->with('flash_message','Solicitud creada correctamente...');
         }
        
         $sectores = Sector::where(['estado'=>1])->orderBy('nombre','asc')->pluck('nombre', 'id');
-        return view('admin.solicitudes.agregar_solicitud')->with(compact('sectores'));
+        return view('admin.solicitudes.nueva_solicitud')->with(compact('sectores'));
     }
 
     /*********************************************************/

@@ -15,9 +15,10 @@
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/back_css/custom.css') }}" rel="stylesheet">
+    <!-- Dark -->
+    <link href="{{ asset('css/back_css/dark.css') }}" rel="stylesheet">
 
     <!-- Toast -->
     <link href="{{ asset('vendors/toast/jquery.toast.css') }}" rel="stylesheet">

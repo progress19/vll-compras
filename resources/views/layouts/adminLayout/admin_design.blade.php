@@ -27,6 +27,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/back_css/custom.css') }}" rel="stylesheet">
+    <!-- Dark -->
+    <link href="{{ asset('css/back_css/dark.css') }}" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/back_css/hover-min.css') }}" rel="stylesheet">
     <!-- Animate -->

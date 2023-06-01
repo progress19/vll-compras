@@ -35,7 +35,7 @@
 
                   <li><a><i class="fa fa-cart-plus" aria-hidden="true"></i> Solicitudes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ url('/admin/agregar-solicitud') }}">Nueva solicitud</a></li>
+                      <li><a href="{{ url('/admin/nueva-solicitud') }}">Nueva solicitud</a></li>
                       <li><a href="{{ url('/admin/ver-solicitudes') }}">Listado</a></li>
                     </ul>
                   </li>
