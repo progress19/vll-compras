@@ -56,7 +56,7 @@
 
               <div class="col-12">
 
-                <button type="button" id="botonAddPlan" class="btn btn-primary"
+                <button type="button" id="botonAddItem" class="btn btn-primary"
                     data-toggle="modal" data-target="#addPlanBoleta" data-boleta="{{-- $boleta->numero --}}"><i
                         class="fa fa-plus"></i> Nuevo item</button>
                 <div class="clearfix"></div>
@@ -97,6 +97,13 @@
 
 <script>
 
+  function mostrarNombreArchivo() {
+    var archivo = document.getElementById('archivo').value;
+    var nombreArchivo = archivo.split('\\').pop(); // Obtener el nombre del archivo sin la ruta completa
+    document.getElementById('nombre-archivo').innerHTML = nombreArchivo;
+  }
+
+
   $('.datespicker').datepicker({
     format: "dd-mm-yyyy",
     todayBtn: "linked",
@@ -108,25 +115,18 @@
 
   $('.select2').select2();
 
-  $('#botonAddPlan').click(function(e) {
+  $('#botonAddItem').click(function(e) {
 
-    $('#importePlan').val(0);
-    $('#cuotas').val(0);
-    $('#fechaPlan').datepicker("setDate", new Date());
+    $('#nombreItem').val('');
+    $('#cantidadItem').val(1);
+    $('#descripcionItem').val('');
 
-    $('#ho_reca').val(0);
-    $('#ho_ofi').val(0);
-    $('#ca_fo').val(0);
-    $('#co_abo').val(0);
-    $('#emb').val(0);
-    $('#inh').val(0);
-    $('#eje_sen').val(0);
-    $('#mo_b').val(0);
-    $('#po_re').val(0);
-    $('#ofi').val(0);
-    $('#ho_in').val(0);
-    $('#ho_mar').val(0);
+    var selectMedidaItem = $('#medidaItem');
+    var selectPrioridadItem = $('#prioridadItem');
 
+    selectMedidaItem.val(selectMedidaItem.find('option:first').val()).trigger('change');
+    selectPrioridadItem.val(selectPrioridadItem.find('option:first').val()).trigger('change');
+        
     var boleta = $('#boleta').val();
 
     var baseUrl = document.getElementById('baseUrl').value;

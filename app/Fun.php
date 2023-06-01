@@ -9,6 +9,24 @@ use Illuminate\Support\Str;
 
 class Fun extends Model {
 
+	public static function getPrioridades() {
+		return array(
+			'1' => 'Baja',
+			'2' => 'Media',
+			'3' => 'Alta',
+		);
+	}
+
+	public static function getUnidadesDeMedida() {
+		return array(
+			'1' => 'Unidades',
+			'2' => 'Kilos',
+			'3' => 'Metros',
+			'4' => 'Horas',
+			'5' => 'Otros',
+		);
+	}
+	
 	public static function getFormatDateInv($date) { //recupero desde la bd
 		if ($date) {
 			$date = explode("-",$date);
@@ -43,10 +61,7 @@ class Fun extends Model {
 			case '6':
 				return '<span class="status-solicitud status-finalizada">Finalizada</span>';  	
 				break;
-			
-			
 		}
-		
 	}
 
 	public static function getIconStatus($status) {

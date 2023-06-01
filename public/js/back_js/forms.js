@@ -214,9 +214,11 @@ $("#edit_usuario").validate({
         event: "blur",
         rules: {
             'titulo': "required",
-                    },
+            'idSector': "required",
+        },
         messages: {
             'titulo': "Por favor ingrese titulo de la solicitud.",
+            'idSector': "Por favor ingrese Centro de costos.",
         },
         debug: true,errorElement: "label",
         submitHandler: function(form){

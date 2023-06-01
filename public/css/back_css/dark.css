@@ -5257,4 +5257,20 @@ div.dataTables_processing > div:last-child > div { background: var(--c-4) ; }
   display: none;
 } 
 
+.form-control:disabled, .form-control[readonly] {
+  background-color: var(--c-2);
+}
 
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: var(--c-3);
+  color: #fff; 
+  border-radius: 4px;
+  margin: 0 10px;
+}
+
+.custom-file-upload:hover {
+  background-color: var(--c-4); 
+}
