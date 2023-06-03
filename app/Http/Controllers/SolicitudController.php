@@ -65,6 +65,8 @@ class SolicitudController extends Controller {
     public function addSolicitud(Request $request) {
         
         if ($request->isMethod('post')) {
+
+            //dd(session()->get('items'));
             
             $data = $request->all();
             
@@ -80,6 +82,8 @@ class SolicitudController extends Controller {
             $solicitud->save();
             return redirect('/admin/ver-solicitudes')->with('flash_message','Solicitud creada correctamente...');
         }
+
+        session()->forget('items');
        
         $sectores = Sector::where(['estado'=>1])->orderBy('nombre','asc')->pluck('nombre', 'id');
         return view('admin.solicitudes.nueva_solicitud')->with(compact('sectores'));

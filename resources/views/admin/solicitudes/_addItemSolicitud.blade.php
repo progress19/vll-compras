@@ -5,12 +5,12 @@
 
 <!-- modals -->
 <!-- modal nuevo Item solicitud -->
-<div class="modal fade bs-example-modal-lg" id="addPlanBoleta" role="dialog" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="addItemSolicitud" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
 
     <div class="modal-content">
-
-      {{ Form::open(array('id' => 'add_plan', 'role' => 'form')) }}
+      
+      {{ Form::open(array('id' => 'add_item', 'role' => 'form','files' => true, 'enctype' => 'multipart/form-data', 'method' => 'POST')) }}
 
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel"><i class="fa fa-bars"></i> Nuevo item</h4>
@@ -25,7 +25,6 @@
         
         <div class="col-md-1">
           <div class="form-group">
-            {!! Form::label('nro', 'Nº') !!}
             {!! Form::text('nro', 2, array('readonly','class' => 'form-control','id' => 'nro')) !!}      
           </div>
         </div>

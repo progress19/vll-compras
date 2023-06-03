@@ -5121,7 +5121,7 @@ thead {color: var(--c-6)}
  }
 
  /* Processing datatables */
-.dataTables_wrapper .dataTables_processing {
+ .dataTables_wrapper .dataTables_processing {
   position: absolute !important;
   top: 30% !important;
   left: 50% !important;
@@ -5132,11 +5132,13 @@ thead {color: var(--c-6)}
   padding-top: 9px !important;
   text-align: center !important;
   font-size: 1.2em !important;
-  background: #444444 !important;
+  background: var(--c-5) !important;
   border-radius: 5px;
   padding-bottom: 10px;
-  box-shadow: 0 8px 6px -6px #333;
   z-index: 9;
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 div.dataTables_processing > div:last-child > div { background: var(--c-4) ; }

@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UsuarioController; 
 use App\Http\Controllers\SectorController; 
 use App\Http\Controllers\SolicitudController; 
+use App\Http\Controllers\ItemController; 
 
 Auth::routes();
 
@@ -28,7 +29,14 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::group(['middleware' => ['role:0']], function () {
 	});
 
-    
+	
+	Route::post('/admin/upload-image', [ItemController::class, 'uploadImage'])->name('uploadImage');
+	Route::post('/admin/add-itemSesion', [ItemController::class, 'addItemSesion'])->name('addItemSesion');
+	Route::get('dataItems', [ItemController::class, 'getDataItems'])->name('dataItems');
+	
+	Route::post('deleteItemSesion', [ItemController::class, 'deleteItemSesion'])->name('deleteItemSesion');
+	
+
 	/* ADMINISTRADOR */
 	Route::group(['middleware' => ['role:1']], function () {
 
@@ -37,6 +45,8 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('dataUsuarios', [UsuarioController::class, 'getData'])->name('dataUsuarios');
 		Route::get('dataSectores', [SectorController::class, 'getData'])->name('dataSectores');
 		Route::get('dataSolicitudes', [SolicitudController::class, 'getData'])->name('dataSolicitudes');
+		
+		
 
 		Route::get('/admin/settings', 'AdminController@settings');
 		Route::get('/admin/edit-user', 'AdminController@editUser');
