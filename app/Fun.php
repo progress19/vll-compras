@@ -9,6 +9,14 @@ use Illuminate\Support\Str;
 
 class Fun extends Model {
 
+	public static function getPrioridadNombre($id) {
+		switch ($id) {
+			case '1': return '<span class="badge-prioridades pri-baja">Baja</span>'; break;
+			case '2': return '<span class="badge-prioridades pri-media">Media</span>'; break;
+			case '3': return '<span class="badge-prioridades pri-alta">Alta</span>'; break;
+		}
+	}
+
 	public static function getPrioridades() {
 		return array(
 			'1' => 'Baja',
@@ -17,13 +25,25 @@ class Fun extends Model {
 		);
 	}
 
+	public static function getUnidadesDeMedidaNombre($id) {
+		switch ($id) {
+			case '1': return 'Unidades'; break;
+			case '2': return 'Kilos'; break;
+			case '3': return 'Litros'; break;
+			case '4': return 'Metros'; break;
+			case '5': return 'Horas'; break;
+			case '6': return 'Otros'; break;
+		}
+	}
+
 	public static function getUnidadesDeMedida() {
 		return array(
 			'1' => 'Unidades',
 			'2' => 'Kilos',
-			'3' => 'Metros',
-			'4' => 'Horas',
-			'5' => 'Otros',
+			'3' => 'Litros',
+			'4' => 'Metros',
+			'5' => 'Horas',
+			'6' => 'Otros',
 		);
 	}
 	

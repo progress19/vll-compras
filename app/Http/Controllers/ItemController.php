@@ -8,42 +8,39 @@ use App\Fun;
 use Yajra\Datatables\Datatables;
 
 class ItemController extends Controller {
-
     
     public function deleteItemSesion(Request $request) {
         if ($request->isMethod('post')) {
             $itemId = $request->input('itemId');
-
+    
             // Obtener el array de items guardado en la sesión
             $items = session()->get('items', []);
-
+    
             // Verificar si la clave del item existe en el array
             if (array_key_exists($itemId, $items)) {
                 // Eliminar el item del array utilizando la clave
                 unset($items[$itemId]);
-
+    
+                // Reindexar el array
+                $items = array_values($items);
+    
                 // Actualizar el array en la sesión
                 session()->put('items', $items);
-
+    
                 return response()->json(['success' => true]);
             }
         }
-
-    return response()->json(['success' => false]);
+        return response()->json(['success' => false]);
     }
-    
-        
+                
     public function uploadImage(Request $request) {
-    
         if ($request->hasFile('foto')) {
-
             $foto = $request->file('foto');
             $nombreFoto = time() . '_' . $foto->getClientOriginalName();
-            $ruta = public_path('fotos');
+            //$ruta = public_path('fotos');
+            $ruta = ('fotos/');
             $foto->move($ruta, $nombreFoto);
-
             return response()->json(['nombreFoto' => $nombreFoto]);
-
         }
     }
 
@@ -55,37 +52,42 @@ class ItemController extends Controller {
         //dd($items);
     
         foreach ($items as $key => $item) {
+
+            if( isset($item['foto']) ) {
+               $foto = '<img src="'.url('/').'/fotos/'.$item['foto'].'" style="max-height:50px;border-radius: 5px;">';   
+            } else {
+                $foto = null;
+            }
+
+            /*
+            ->addColumn('numero_raw', function ($plan) {
+                return "<a href='' class='btn-table hvr-grow' data-toggle='modal' data-target='#editPlanBoleta' 
+                data-nro=".$plan->nro." 
+                data-boleta=".$plan->boleta." 
+                data-vto=".Carbon::parse($plan->fecha)->format('d-m-Y')."
+                data-importe=".$plan->importe." 
+                data-cuotas=".$plan->cuotas." 
+                 >".$plan->nro."</a>";
+             })
+            */
+            /*
+            $numero = "<a href='' class='btn-table hvr-grow' data-toggle='modal' data-target='#editPlanBoleta' 
+            data-nro=".$plan->nro." 
+             >".$key + 1."</a>";
+            */          
+            
             $data[] = [
                 'numero' => $key + 1,
                 'nombre' => $item['nombreItem'],
+                'medida' => Fun::getUnidadesDeMedidaNombre($item['medidaItem']), 
+                'cantidad' => $item['cantidadItem'],
+                'foto' => $foto,
+                'prioridad' => Fun::getPrioridadNombre($item['prioridadItem']),
                 'acciones' => "<a href='#' data-id=".$key." class='delete-item'><i class='fa fa-trash-o' aria-hidden='true'></i></a>"
-                //'acciones' => "<button class='btn btn-danger btn-sm delete-item'><i class='fa fa-trash-o' aria-hidden='true'></i></button>"
-                //return '<button class="btn btn-danger btn-sm delete-item" data-id="' + full.id + '">Eliminar</button>';
-                // Agrega más campos según sea necesario
             ];
         }
-    
-        return response()->json(['data' => $data]);
-    
+            return response()->json(['data' => $data]);
         }
-
-
-    public function getDataXXX() {
-
-        $sectores = Sector::select()->orderBy('nombre', 'asc');
-        return Datatables::of($sectores)
-            ->addColumn('nombre_raw', function ($sector) {
-                return "<a href='editar-sector/$sector->id'>$sector->nombre</a>"; 
-            })
-            ->addColumn('estado', function ($sector) {
-                return Fun::getIconStatus($sector->estado); 
-            })
-            ->addColumn('acciones', function ($sector) {
-                return "<a href='eliminar-sector/$sector->id' class='delReg'><i class='fa fa-trash-o' aria-hidden='true'></i></a>";
-            })
-            ->rawColumns(['nombre_raw','estado','acciones'])
-            ->make(true);
-    }
 
     public function verSectores() {
         $sectores = Sector::orderBy('nombre','asc')->get();

@@ -2717,8 +2717,10 @@ button,
   border-top-left-radius: 5px; }
 
 .compose .compose-header .close {
-  text-shadow: 0 1px 0 #ffffff;
-  line-height: .8; }
+  text-shadow: 0 0 0 #ffffff !important;
+  line-height: .8;
+  color: white !important;
+}
 
 .compose .compose-body .editor.btn-toolbar {
   margin: 0; }
@@ -5105,6 +5107,7 @@ thead {color: var(--c-6)}
 .dataTables_wrapper .dataTables_length select {
   background-color: var(--c-3);
   border: 0 solid #aaa;
+  color: var(--c-7);
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
@@ -5275,4 +5278,10 @@ div.dataTables_processing > div:last-child > div { background: var(--c-4) ; }
 
 .custom-file-upload:hover {
   background-color: var(--c-4); 
+}
+
+.close { 
+  color: var(--c-7);
+  opacity: 1;
+  text-shadow: 0 0 0 #fff;
 }

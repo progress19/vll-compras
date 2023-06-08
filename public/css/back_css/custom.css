@@ -43,4 +43,13 @@ hr {
     margin: 1em 0;
     padding: 0;
   }
+
+.badge-prioridades {
+    padding: 4px 15px;
+    border-radius: 10px;
+}
+
+.pri-baja { background-color: cyan; }
+.pri-media { background-color: green; color: white; }
+.pri-alta { background-color: red; color: white;}
   

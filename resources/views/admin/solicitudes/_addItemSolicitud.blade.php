@@ -3,7 +3,6 @@
   use Carbon\Carbon;
 @endphp
 
-<!-- modals -->
 <!-- modal nuevo Item solicitud -->
 <div class="modal fade bs-example-modal-lg" id="addItemSolicitud" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -14,23 +13,13 @@
 
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel"><i class="fa fa-bars"></i> Nuevo item</h4>
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-        </button>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
 
       <div class="modal-body">
-
-        {{-- Form::hidden('boleta', $boleta->numero, array('id' => 'boleta')) --}}
+   
         {{ Form::hidden('baseUrl', url('/'), array('id' => 'baseUrl')) }}
-        
-        <div class="col-md-1">
-          <div class="form-group">
-            {!! Form::text('nro', 2, array('readonly','class' => 'form-control','id' => 'nro')) !!}      
-          </div>
-        </div>
-
-        <div class="clearfix"></div>
-
+   
         <div class="col-md-5">
           <div class="form-group">
             {!! Form::label('nombreItem', 'Nombre') !!}
@@ -61,6 +50,7 @@
 
         <div class="col-md-12">
           <div class="form-group">
+            {!! Form::label('descripcionItem', 'Descripción') !!}
             <textarea name="descripcionItem" id="descripcionItem" class="form-control" rows="50" cols="100" style="height: 150px;"></textarea>
           </div>
         </div>

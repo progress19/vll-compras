@@ -9,7 +9,7 @@
       <div class="col-md-10">
         <div class="x_panel animate__animated animate__fadeIn">
           <div class="x_title">
-            <h2><i class="fa fa-cart-plus"></i> Solicitudes de compras - Nueva</h2>
+            <h2><i class="fa fa-cart-plus"></i> Solicitud de Compra - Editar</h2>
             <ul class="nav navbar-right panel_toolbox"></ul>
             <div class="clearfix"></div>
           </div>
@@ -25,16 +25,14 @@
               'files' => true])
             }}
 
-              <div class="col-md-3">
+              <div class="col-md-6">
                 <div class="form-group">
                   {!! Form::label('titulo', 'Título') !!}
                   {!! Form::text('titulo', null, ['id' => 'titulo', 'class' => 'form-control']) !!}
                 </div>
               </div>
-
-              <div class="clearfix"></div>
                
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('sector', 'Centro de costos') !!}
                   {!! Form::select('idSector', $sectores, null, ['id' => 'idSector', 'placeholder' => 'Seleccione Centro de costos...', 'class' => 'form-control select2']) !!}
@@ -66,10 +64,10 @@
                         <tr>
                           <th>Nº</th>
                           <th>Nombre</th>
-                          {{--<th>Unidad de medida</th>
+                          <th>Unidad de medida</th>
                           <th>Cantidad</th>
                           <th>Foto</th>
-                          <th>Prioridad</th>--}}
+                          <th>Prioridad</th>
                           <th></th>
                         </tr>
                     </thead>
@@ -96,6 +94,8 @@
 
 <script>
 
+    document.addEventListener("DOMContentLoaded", function() { document.getElementById("titulo").focus(); });
+
     $(document).on('click', '.delete-item', function() {
         
       var itemId = $(this).data('id');
@@ -104,19 +104,11 @@
         $.ajax({
             url: '{!! route('deleteItemSesion') !!}',
             type: 'POST',
-            data: {
-                itemId: itemId
-            },
+            data: { itemId: itemId },
             dataType: 'json',
-            success: function(response) {
-
-              $('#items_dataTable').DataTable().ajax.reload();
-
-                if (response.success) {
-                    // Item eliminado correctamente, puedes realizar alguna acción adicional si lo deseas
-                } else {
-                    // No se pudo eliminar el item, manejar el error si es necesario
-                }
+            success: function(response) { 
+              $('#items_dataTable').DataTable().ajax.reload(); 
+              toast('Item eliminado...');
             },
             error: function(xhr, status, error) {
                 // Manejar el error de la solicitud AJAX si es necesario
@@ -130,18 +122,20 @@
           processing: true,
           //serverSide: true,
           pageLength: 50,
+          paging: false,
+          lengthChange: false,
           ajax: '{!! route('dataItems') !!}',
           columns: [
-            
               {data: 'numero'},
               {data: 'nombre'},
+              {data: 'medida'},
+              {data: 'cantidad'},
+              {data: 'foto'},
+              {data: 'prioridad'},
               {data: 'acciones',title: '', orderable: false, searchable: false, className: 'dt-body-center'},
-              
           ],
           order: [[0, 'asc']],
-          language: {
-              "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-          },
+          language: { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
       });
     });
 
@@ -230,9 +224,8 @@
 
   $('.select2').select2();
 
-  $('#addItemSolicitud').on('hidden.bs.modal', function() {
-    $('#planes_dataTable').DataTable().ajax.reload();
-  });
+  $('#addItemSolicitud').on('hidden.bs.modal', function() { $('#items_dataTable').DataTable().ajax.reload(); });
+  $('#addItemSolicitud').on('shown.bs.modal', function() { $('#nombreItem').focus(); });
 
   $('#botonAddItem').click(function(e) {
 
@@ -246,31 +239,10 @@
 
     selectMedidaItem.val(selectMedidaItem.find('option:first').val()).trigger('change');
     selectPrioridadItem.val(selectPrioridadItem.find('option:first').val()).trigger('change');
-        
-    //var boleta = $('#boleta').val();
-
-    //var baseUrl = document.getElementById('baseUrl').value;
-
-    /*    
-    $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-        }
-    })
-
-    $.ajax({
-        url: "/getNroPlan/" + boleta,
-        method: "post",
-        success: function(data) {
-            $('#nro').val(data);
-        }
-    });
-    */
-
+    
 });
 
 </script>
-
 
 @stop
 

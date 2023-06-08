@@ -51,7 +51,7 @@
 
               <h1>LOGIN</h1><br>
               <div>
-                <input type="email" class="form-control" name="email" placeholder="Usuario" required="" />
+                <input type="email" class="form-control" id="user" name="email" placeholder="Usuario" required="" />
               </div>
               <div>
                 <input type="password" class="form-control" name="password" placeholder="Contraseña" required="" />
@@ -93,6 +93,10 @@
 @if (session('flash_message'))
   <script>toast('{!! session('flash_message') !!}');</script>
 @endif
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() { document.getElementById("user").focus(); });
+</script>
 
   </body>
 </html>

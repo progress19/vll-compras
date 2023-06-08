@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Solicitud;
 use App\Sector;
+use App\Item;
 use App\Fun;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
@@ -65,10 +66,10 @@ class SolicitudController extends Controller {
     public function addSolicitud(Request $request) {
         
         if ($request->isMethod('post')) {
-
-            //dd(session()->get('items'));
-            
+                       
             $data = $request->all();
+
+            /* Save Solicitud */
             
             $fechaNec = explode("-",$data['fechaNec']);
             $fechaNec = "$fechaNec[2]-$fechaNec[1]-$fechaNec[0]"; 
@@ -80,6 +81,48 @@ class SolicitudController extends Controller {
             $solicitud->idUsuario = $request->user()->id;
             $solicitud->estado = 1;
             $solicitud->save();
+
+            /* Save Items solicitud */
+
+            $i = 1;
+           
+            foreach ( session()->get('items') as $item_arr ) {
+
+                $item = new Item;
+
+                $item->idItem = $i;
+                $item->idSolicitud = $solicitud->id;
+                $item->nombre = $item_arr['nombreItem'];
+                $item->idUnidad = $item_arr['medidaItem'];
+                $item->cantidad = $item_arr['cantidadItem'];
+                $item->idPrioridad = $item_arr['prioridadItem'];
+                $item->descripcion = $item_arr['descripcionItem'];
+                
+                if (isset($item_arr['foto'])) {
+                    $item->foto = $item_arr['foto'];    
+                } else {$item->foto = null;    }
+                
+                $item->save();
+                
+                $i++;
+            
+            } 
+
+            //dd(session()->get('items'));
+
+ /*
+  0 => array:8 [▼
+    "_token" => "rCLDVx63DWCkHycjKvcNJKJ6PERvW8WWvZw7LcLj"
+    "baseUrl" => "http://localhost/vll-compras/public"
+    "nombreItem" => "1"
+    "medidaItem" => "1"
+    "cantidadItem" => "1"
+    "prioridadItem" => "1"
+    "descripcionItem" => "1 des"
+    "foto" => "1686168499_2.jpg"
+  ]
+*/
+
             return redirect('/admin/ver-solicitudes')->with('flash_message','Solicitud creada correctamente...');
         }
 
@@ -94,6 +137,7 @@ class SolicitudController extends Controller {
     /*********************************************************/
 
     public function editSolicitud(Request $request, $id = null) {
+
         if ($request->isMethod('post')) {
             $data = $request->all();
             //echo "<pre>"; print_r($data); die;
@@ -103,8 +147,11 @@ class SolicitudController extends Controller {
                 ]);
             return redirect('/admin/ver-solicitudes')->with('flash_message','Solicitud actualizada correctamente...');
         }
+    
         $solicitud = Solicitud::where(['id'=>$id])->first();
-        return view('admin.solicitudes.editar_solicitud')->with(compact('solicitud'));
+        $sectores = Sector::where(['estado'=>1])->orderBy('nombre','asc')->pluck('nombre', 'id');
+        return view('admin.solicitudes.editar_solicitud')->with(compact('solicitud','sectores'));
+    
     }
 
     /*********************************************************/
