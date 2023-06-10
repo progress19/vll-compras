@@ -4,37 +4,36 @@
     border-radius: 14px;
     padding: 4px 17px;
 }
-
 .status-pendiente {
     background-color: #ffcfc9;
     color: #000;
+    opacity: 0.7;
 }
-
 .status-aprobada {
     background-color: #0a53a8;
     color: #fff;
+    opacity: 0.8;
 }
-
 .status-rechazada {
     background-color: #b10202;
     color: #fff;
+    opacity: 0.8;
 }
-
 .status-proceso {
     background-color: #ffe5a0;
     color: #000;
+    opacity: 0.8;
 }
-
 .status-deposito {
     background-color: #11734b;
     color: #fff;
+    opacity: 0.8;
 }
-
 .status-finalizada {
     background-color: #f1f3f4;
     color: #000;
+    opacity: 0.8;
 }
-
 hr {
     display: block;
     height: 1px;

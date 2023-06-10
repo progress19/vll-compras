@@ -4958,9 +4958,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .float-right {float: right;}
 
-.select2-container {
-  width: 100% !important;
-}
+/*.select2-container {  width: 100% !important; }*/
 
 label#idEtapa-error.error {
     background-color: #73879C;
@@ -5038,11 +5036,17 @@ table tr {height: 43px !important;}
 }
 
 .btn-table {
-  color: #5A738E;
+  color: #007bff;
   text-decoration: none;
-  background-color: #ddd !important;
+  background-color: var(--c-5) !important;
   padding: 3px 10px !important;
   border-radius: 4px;
+  min-width: 38px;
+  text-align: right;
+}
+
+.btn-table:hover {
+  color: var(--c-6);
 }
 
 .form-group label.error {
@@ -5175,7 +5179,7 @@ div.dataTables_processing > div:last-child > div { background: var(--c-4) ; }
 }
 
 .modal-content {
-  background-color: var(--c-5) !important;
+  background-color: var(--c-2) !important;
 }
 
 .modal-header {
@@ -5214,7 +5218,7 @@ div.dataTables_processing > div:last-child > div { background: var(--c-4) ; }
 
 /** Select2 **/
 .select2-container--default .select2-selection--single {
-  background-color: var(--c-3);
+  background-color: var(--c-5) !important;
   border:0 solid #aaa;
   border-radius:5px;
   min-height: 38px;
@@ -5285,3 +5289,6 @@ div.dataTables_processing > div:last-child > div { background: var(--c-4) ; }
   opacity: 1;
   text-shadow: 0 0 0 #fff;
 }
+
+.select2-selection { overflow: hidden; }
+.select2-selection__rendered { white-space: normal; word-break: break-all; }

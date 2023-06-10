@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
 	// Rutas solo para usuarios con rol 0
-		Route::group(['middleware' => ['role:0']], function () {
+	Route::group(['middleware' => ['role:0']], function () {
 	});
 	
 	Route::post('/admin/upload-image', [ItemController::class, 'uploadImage'])->name('uploadImage');
@@ -34,6 +34,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('dataItems', [ItemController::class, 'getDataItems'])->name('dataItems');
 	Route::post('dataItemsEdit', [ItemController::class, 'dataItemsEdit'])->name('dataItemsEdit');
 	
+	Route::post('/getItemSolicitud/{id}', [ItemController::class, 'getItemSolicitud'])->name('getItemSolicitud');
+	
+
 	Route::post('deleteItemSesion', [ItemController::class, 'deleteItemSesion'])->name('deleteItemSesion');
 
 	/* ADMINISTRADOR */

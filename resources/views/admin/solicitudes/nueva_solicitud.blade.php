@@ -9,7 +9,7 @@
       <div class="col-md-10">
         <div class="x_panel animate__animated animate__fadeIn">
           <div class="x_title">
-            <h2><i class="fa fa-cart-plus"></i> Solicitud de Compra - Editar</h2>
+            <h2><i class="fa fa-cart-plus"></i> Solicitud de Compra - Nueva</h2>
             <ul class="nav navbar-right panel_toolbox"></ul>
             <div class="clearfix"></div>
           </div>
@@ -115,7 +115,6 @@
             }
         });
     });
-
 
     $(function() {
       $('#items_dataTable').DataTable({

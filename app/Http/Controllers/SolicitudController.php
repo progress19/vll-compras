@@ -21,7 +21,7 @@ class SolicitudController extends Controller {
             ->orderColumn('id', '-id $1')
 
             ->addColumn('numero_raw', function ($solicitud) {
-                return "<a href='editar-solicitud/$solicitud->id'>$solicitud->id</a>"; 
+                return "<a class='btn-table hvr-grow' href='editar-solicitud/$solicitud->id'>$solicitud->id</a>"; 
             })
 
             ->addColumn('titulo_raw', function ($solicitud) {
@@ -142,7 +142,7 @@ class SolicitudController extends Controller {
             $data = $request->all();
             //echo "<pre>"; print_r($data); die;
             Solicitud::where(['id'=>$id])->update([
-                'titulo' => $data['titulo'],
+                //'titulo' => $data['titulo'],
                 'estado' => $data['estado'],
                 ]);
             return redirect('/admin/ver-solicitudes')->with('flash_message','Solicitud actualizada correctamente...');

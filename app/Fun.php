@@ -55,29 +55,34 @@ class Fun extends Model {
 		}
 	}
 
+	public static function getStatusSolicitudList() {
+		return array(
+			'1' => 'Pendiente',
+			'2' => 'Aprobada',
+			'3' => 'Rechazada',
+			'4' => 'En proceso',
+			'5' => 'En depósito',
+			'6' => 'Finalizada',
+		);
+	}
+
 	public static function getStatusSolicitud($status) {
-		
 		switch ( $status ) {
 			case '1':
 				return '<span class="status-solicitud status-pendiente">Pendiente</span>';  	
 				break;
-
 			case '2':
 				return '<span class="status-solicitud status-aprobada">Aprobada</span>';  	
 				break;
-
 			case '3':
 				return '<span class="status-solicitud status-rechazada">Rechazada</span>';  	
 				break;
-			
 			case '4':
 				return '<span class="status-solicitud status-proceso">En proceso</span>';  	
 				break;
-			
 			case '5':
 				return '<span class="status-solicitud status-deposito">En depósito</span>';  	
 				break;
-
 			case '6':
 				return '<span class="status-solicitud status-finalizada">Finalizada</span>';  	
 				break;

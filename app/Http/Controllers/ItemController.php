@@ -10,53 +10,37 @@ use Yajra\Datatables\Datatables;
 class ItemController extends Controller {
 
     public function dataItemsEdit(Request $request) {
-
-        //$etapasBoletas = EtapaBoleta::where('boleta','=',$request->get('boleta'))->orderBy('id', 'desc');
+        
         $items = Item::where('idSolicitud','=',$request->get('solicitud'))->orderBy('id', 'desc');
-
-       
-        dd($items);
-        
-        $solicitudes = Solicitud::select()->orderBy('id', 'desc');
-        
-        return Datatables::of($solicitudes)
+                
+        return Datatables::of($items)
 
             ->orderColumn('id', '-id $1')
 
-            ->addColumn('numero_raw', function ($solicitud) {
-                return "<a href='editar-solicitud/$solicitud->id'>$solicitud->id</a>"; 
-            })
+            ->addColumn('numero_raw', function ($item) {
+//                return $item->id; 
+                return "<a class='btn-table hvr-grow' href='#' data-toggle='modal' data-target='#modal_editItemSolicitud' data-id=".$item->id.">".$item->idItem."</a>";
 
-            ->addColumn('titulo_raw', function ($solicitud) {
-                return "<a href='editar-solicitud/$solicitud->id'>$solicitud->titulo</a>"; 
-            })
-
-            ->addColumn('fecha_raw', function ($solicitud) {
-                return Carbon::parse($solicitud->fecha)->format('d-m-Y'); 
-            })  
-
-            ->addColumn('fechaNec_raw', function ($solicitud) {
-                return Carbon::parse($solicitud->fechaNec)->format('d-m-Y'); 
             })
             
-            ->addColumn('usuario_raw', function ($solicitud) {
-                return $solicitud->usuario->name;
-            }) 
-
-            ->addColumn('sector_raw', function ($solicitud) {
-                return $solicitud->sector->nombre;
-            }) 
-
-            ->addColumn('estado', function ($solicitud) {
-                return Fun::getStatusSolicitud($solicitud->estado); 
+            ->addColumn('medida_raw', function ($item) {
+                return Fun::getUnidadesDeMedidaNombre($item->idUnidad); 
             })
 
-            ->addColumn('acciones', function ($solicitud) {
-                return "<a href='eliminar-solicitud/$solicitud->id' class='delReg'><i class='fa fa-trash-o' aria-hidden='true'></i></a>";
+            ->addColumn('foto_raw', function ($item) {
+                if( isset($item->foto) ) {
+                    return '<img src="'.url('/').'/fotos/'.$item->foto.'" style="max-height:50px;border-radius: 5px;">';   
+                } else {
+                     return null;
+                }
             })
-            ->rawColumns(['numero_raw','fecha_raw','titulo_raw','fechaNec_raw','usuario_raw','estado','acciones','sector'])
+
+            ->addColumn('prioridad_raw', function ($item) {
+                return Fun::getPrioridadNombre($item->idPrioridad);
+            })  
+
+            ->rawColumns(['numero_raw','medida_raw','foto_raw','prioridad_raw'])
             ->make(true);
-
     }
     
     public function deleteItemSesion(Request $request) {
@@ -70,13 +54,10 @@ class ItemController extends Controller {
             if (array_key_exists($itemId, $items)) {
                 // Eliminar el item del array utilizando la clave
                 unset($items[$itemId]);
-    
                 // Reindexar el array
                 $items = array_values($items);
-    
                 // Actualizar el array en la sesión
                 session()->put('items', $items);
-    
                 return response()->json(['success' => true]);
             }
         }
@@ -87,7 +68,6 @@ class ItemController extends Controller {
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $nombreFoto = time() . '_' . $foto->getClientOriginalName();
-            //$ruta = public_path('fotos');
             $ruta = ('fotos/');
             $foto->move($ruta, $nombreFoto);
             return response()->json(['nombreFoto' => $nombreFoto]);
@@ -98,8 +78,6 @@ class ItemController extends Controller {
 
         $items = session()->get('items', []);
         $data = [];
-
-        //dd($items);
     
         foreach ($items as $key => $item) {
 
@@ -108,23 +86,6 @@ class ItemController extends Controller {
             } else {
                 $foto = null;
             }
-
-            /*
-            ->addColumn('numero_raw', function ($plan) {
-                return "<a href='' class='btn-table hvr-grow' data-toggle='modal' data-target='#editPlanBoleta' 
-                data-nro=".$plan->nro." 
-                data-boleta=".$plan->boleta." 
-                data-vto=".Carbon::parse($plan->fecha)->format('d-m-Y')."
-                data-importe=".$plan->importe." 
-                data-cuotas=".$plan->cuotas." 
-                 >".$plan->nro."</a>";
-             })
-            */
-            /*
-            $numero = "<a href='' class='btn-table hvr-grow' data-toggle='modal' data-target='#editPlanBoleta' 
-            data-nro=".$plan->nro." 
-             >".$key + 1."</a>";
-            */          
             
             $data[] = [
                 'numero' => $key + 1,
@@ -137,7 +98,7 @@ class ItemController extends Controller {
             ];
         }
             return response()->json(['data' => $data]);
-        }
+    }
 
     public function verSectores() {
         $sectores = Sector::orderBy('nombre','asc')->get();
@@ -151,22 +112,15 @@ class ItemController extends Controller {
     public function addItemSesion(Request $request) {
         
         if ($request->isMethod('post')) {
-           
             $item = $request->input('item');
-
             // Obtener el array de items guardado en la sesión
             $items = session()->get('items');
-          
             // Agregar el nuevo item al array
             $items[] = $item;
-         
             // Guardar el array actualizado en la sesión
-            
             session()->put('items', $items); 
-
             return response()->json(['success' => true]);
         }
-
     }
 
     /*********************************************************/
@@ -187,18 +141,22 @@ class ItemController extends Controller {
         return view('admin.sectores.editar_sector')->with(compact('sector'));
     }
 
-
     /*********************************************************/
     /*                   D E L E T E                       */
     /*********************************************************/
 
-    public function deleteSector(Request $request, $id = null) {
+    public function deleteItem(Request $request, $id = null) {
         if (!empty($id)) {
             Sector::where(['id'=>$id])->delete();
             return redirect('/admin/ver-sectores')->with('flash_message','Centro de costos eliminado...');
         }
         $sectores = Sector::get();
         return view('admin.sectores.ver_sectores')->with(compact('sectores'));
+    }
+
+    public function getItemSolicitud($id) {
+        $item = Item::find($id);
+        return $item;    
     }
 
 }

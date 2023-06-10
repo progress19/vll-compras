@@ -55,7 +55,7 @@
           pageLength: 50,
           ajax: '{!! route('dataSolicitudes') !!}',
           columns: [
-              {data: 'numero_raw'},
+              {data: 'numero_raw', className: 'dt-body-center'},
               {data: 'fecha_raw'},
               {data: 'titulo_raw'},
               {data: 'usuario_raw'},
