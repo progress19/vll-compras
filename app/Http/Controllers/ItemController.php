@@ -8,6 +8,56 @@ use App\Fun;
 use Yajra\Datatables\Datatables;
 
 class ItemController extends Controller {
+
+    public function dataItemsEdit(Request $request) {
+
+        //$etapasBoletas = EtapaBoleta::where('boleta','=',$request->get('boleta'))->orderBy('id', 'desc');
+        $items = Item::where('idSolicitud','=',$request->get('solicitud'))->orderBy('id', 'desc');
+
+       
+        dd($items);
+        
+        $solicitudes = Solicitud::select()->orderBy('id', 'desc');
+        
+        return Datatables::of($solicitudes)
+
+            ->orderColumn('id', '-id $1')
+
+            ->addColumn('numero_raw', function ($solicitud) {
+                return "<a href='editar-solicitud/$solicitud->id'>$solicitud->id</a>"; 
+            })
+
+            ->addColumn('titulo_raw', function ($solicitud) {
+                return "<a href='editar-solicitud/$solicitud->id'>$solicitud->titulo</a>"; 
+            })
+
+            ->addColumn('fecha_raw', function ($solicitud) {
+                return Carbon::parse($solicitud->fecha)->format('d-m-Y'); 
+            })  
+
+            ->addColumn('fechaNec_raw', function ($solicitud) {
+                return Carbon::parse($solicitud->fechaNec)->format('d-m-Y'); 
+            })
+            
+            ->addColumn('usuario_raw', function ($solicitud) {
+                return $solicitud->usuario->name;
+            }) 
+
+            ->addColumn('sector_raw', function ($solicitud) {
+                return $solicitud->sector->nombre;
+            }) 
+
+            ->addColumn('estado', function ($solicitud) {
+                return Fun::getStatusSolicitud($solicitud->estado); 
+            })
+
+            ->addColumn('acciones', function ($solicitud) {
+                return "<a href='eliminar-solicitud/$solicitud->id' class='delReg'><i class='fa fa-trash-o' aria-hidden='true'></i></a>";
+            })
+            ->rawColumns(['numero_raw','fecha_raw','titulo_raw','fechaNec_raw','usuario_raw','estado','acciones','sector'])
+            ->make(true);
+
+    }
     
     public function deleteItemSesion(Request $request) {
         if ($request->isMethod('post')) {

@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('/admin/upload-image', [ItemController::class, 'uploadImage'])->name('uploadImage');
 	Route::post('/admin/add-itemSesion', [ItemController::class, 'addItemSesion'])->name('addItemSesion');
 	Route::get('dataItems', [ItemController::class, 'getDataItems'])->name('dataItems');
+	Route::post('dataItemsEdit', [ItemController::class, 'dataItemsEdit'])->name('dataItemsEdit');
 	
 	Route::post('deleteItemSesion', [ItemController::class, 'deleteItemSesion'])->name('deleteItemSesion');
 

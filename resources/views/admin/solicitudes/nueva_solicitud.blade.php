@@ -139,7 +139,6 @@
       });
     });
 
-
   /* item-solicitud add_item */
 
   $("#add_item").validate({
